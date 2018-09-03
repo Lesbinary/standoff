@@ -1,4 +1,4 @@
-# Stand-off annotation for deferred TM
+# Stand-off annotation for deferred TMX
 ## Implementation of Stand-off annotation for deferred TMX ([Forcada, Esplà-Gomis and Pérez-Ortiz, EAMT 2016](http://www.dlsi.ua.es/~mlf/docum/forcada16j.pdf))
 
 Usage:

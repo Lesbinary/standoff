@@ -7,11 +7,17 @@ import base64
 import html5lib
 from lxml import etree
 import re
+import argparse
 
+
+parser = argparse.ArgumentParser(description='Given Bitextor DOCALG segments (stdin) and the deferred Bitextor crawl from deferred document script (positional argument), returns segments stand-off annotations in DOCALG format (stdout)')
+parser.add_argument('deferred_crawl_path', help='path of deferred crawl file')
+
+args = parser.parse_args()
 
 #Argument input: deferred Bitextor crawl file with plain text and its standoff annotations (output of deferred document script)
 documentStandoff = dict()
-with open(sys.argv[1],'r') as reader:
+with open(args.deferred_crawl_path,'r') as reader:
     for line in reader:
         fields = line.split('\t')
         fields = list(map(str.strip, fields))

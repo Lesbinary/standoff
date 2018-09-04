@@ -7,6 +7,7 @@ import hashlib
 import base64
 import html5lib
 from lxml import etree
+import argparse
 
 def get_sentence(standoff,document):
     """Returns the text string from the XHTML/XML document that is pointed by the standoff annotation
@@ -40,11 +41,15 @@ def get_sentence(standoff,document):
                         break
     return " ".join(reconstructedsentence)
 
+parser = argparse.ArgumentParser(description='Given Bitextor DOCALG file with deferred segments (stdin) and a Bitextor crawl file (positional argument), returns reconstructed segments in DOCALG format (stdout)')
+parser.add_argument('crawl_path', help='path of crawl file')
+
+args = parser.parse_args()
 
 
 #Argument input: path of original Bitextor formatted crawl file
 document_standoff = dict()
-with open(sys.argv[1],'r') as reader:
+with open(args.crawl_path,'r') as reader:
     for line in reader:
         fields=line.split('\t')
         fields = list(map(str.strip, fields)) #Strip all elements

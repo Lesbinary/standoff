@@ -8,6 +8,7 @@ import base64
 import html5lib
 from lxml import etree
 import re
+import argparse
 
 #Inline tags that don't start on a new line and only take up as much width as necessary. From https://www.w3schools.com/html/html_blocks.asp
 inline_tags={"a","abbr","acronym","b","bdo","big","br","button","cite","code","dfn","em","i","img","input","kbd","label","map","object","q","samp","script","select","small","span","strong","sub","sup","textarea","time","tt","var"}
@@ -120,7 +121,9 @@ def getDocumentStandoff(document):
 #Global variable to mark if end of tag text has space of any kind
 spaceEndPreviousTag=True
 
+parser = argparse.ArgumentParser(description='Generates (stdout) Stand-off Annotation of HTML documents given in Bitextor crawl format (stdin)')
 
+args = parser.parse_args()
 
 #Input (stdin) in Bitextor crawl format:
 #html_content(base_64)      url

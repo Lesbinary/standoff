@@ -1,7 +1,9 @@
 # Stand-off annotation for deferred TMX
-## Implementation of Stand-off annotation for deferred TMX ([Forcada, Esplà-Gomis and Pérez-Ortiz, EAMT 2016](http://www.dlsi.ua.es/~mlf/docum/forcada16j.pdf))
+### Implementation of Stand-off annotation for deferred TMX ([Forcada, Esplà-Gomis and Pérez-Ortiz, EAMT 2016](http://www.dlsi.ua.es/~mlf/docum/forcada16j.pdf))
 
-Usage:
+Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--deferred` (in `standoff` branch, not in `master` yet). Fully working with [Wiki sample](https://github.com/bitextor/bitextor/wiki/Sample-of-a-bitext)
+
+## Scripts usage
 
 `deferred-document.py`: 3.1 Deferred bitext crawl
 
@@ -28,7 +30,7 @@ Usage:
 
 --------
 
-`reconstructor-deferred-sentences.py`: reconstructs tab separated deferred sentences
+`reconstructor-deferred-sentences.py`: reconstructs tab separated deferred sentences (not TMX yet)
 
 - Argument input: Bitextor crawl format
 

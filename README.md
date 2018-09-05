@@ -24,7 +24,7 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 
 `url1  url2  clean_text1_in_base64  clean_text2_in_base64  [...]`
 
-- stdout: Bitextor DOCALG file with stand-off annotations (can be converted to TMX using Bitextor's `bitextor-buildTMX`):
+- stdout: Bitextor DOCALG file with stand-off annotations (can be converted to TMX using Bitextor's `bitextor-buildTMX` using 'deferredseg1' and 'deferredseg2' columns in `--columns`):
 
 `url1  url2  clean_text1_in_base64  clean_text2_in_base64  [...]  standoff_text1  standoff_text2`
 

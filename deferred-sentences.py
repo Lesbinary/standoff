@@ -22,7 +22,7 @@ with open(args.deferred_crawl_path,'r') as reader:
         fields = line.split('\t')
         fields = list(map(str.strip, fields))
         documenttext = base64.b64decode(fields[0]).decode('utf8')
-        documentStandoff[fields[1]]=(documenttext,fields[4].split(';'))
+        documentStandoff[fields[1]]=(documenttext,fields[3].split(';'))
 
 #Input (stdin): Bitextor DOCALG file:
 #url1 url2 clean_text1_in_base64 clean_text2_in_base64 [...]

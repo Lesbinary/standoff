@@ -5,7 +5,7 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 
 ## Scripts usage
 
-`deferred-document.py`: 3.1 Deferred bitext crawl
+### `deferred-document.py`: 3.1 Deferred bitext crawl
 
 - stdin: Bitextor crawl format
 
@@ -17,7 +17,7 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 
 --------
 
-`deferred-sentences.py`: 3.2 Deferred translation memory crawl
+### `deferred-sentences.py`: 3.2 Deferred translation memory crawl
 
 - Argument input: path of deferred Bitextor crawl file (output of deferred document script)
 - stdin: Bitextor DOCALG file
@@ -30,13 +30,13 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 
 --------
 
-`reconstructor-deferred-sentences.py`: reconstructs tab separated deferred sentences (TMX supported using `--tmx`)
+### `reconstructor-deferred-sentences.py`: reconstructs tab separated deferred sentences (TMX supported using `--tmx`)
 
 - Argument input: Bitextor crawl format
 
 `html_content(base_64)  url`
 
-Using tab separated input:
+#### Using tab separated input:
 
 - stdin: Bitextor DOCALG file with stand-off annotations (only tab separated format supported)
 
@@ -45,7 +45,7 @@ Using tab separated input:
 
 `url1  url2  clean_text1_in_base64  clean_text2_in_base64  [...]`
 
-Using `--tmx` option:
+#### Using `--tmx` option:
 
 - stdin: TMX with existing 'tu/tuv/prop type="deferred-seg"' and 'tu/tuv/prop type="source-document"'
 

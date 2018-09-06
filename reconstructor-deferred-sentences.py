@@ -70,13 +70,20 @@ if args.tmx:
         for tuv in tu.findall('tuv'):
             url=""
             annotation=""
+            checksum=""
             for prop in tuv.findall('prop'):
                 if prop.attrib['type'] == "source-document":
                     url=prop.text
                 elif prop.attrib['type'] == "deferred-seg":
                     annotation=prop.text
+                elif prop.attrib['type'] == "checksum-seg":
+                    checksum=prop.text
             tuv.findall('seg')[0].text = get_sentence(annotation,document_standoff[url])
-    print(ElementTree.tostring(root).decode())
+            if str(hashlib.md5(tuv.findall('seg')[0].text.encode('utf8')).hexdigest()) != checksum:
+                tuv.append(etree.Element('prop'))
+                tuv[-1].attrib['type']='info'
+                tuv[-1].text = "Reconstructed segment MD5 checksum does not match"
+    print(etree.tostring(root, pretty_print=True).decode())
 else:
     for line in sys.stdin:
         fields = line.split('\t')

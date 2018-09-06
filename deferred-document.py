@@ -3,7 +3,6 @@
 
 import sys
 import time
-import hashlib
 import base64
 import html5lib
 from lxml import etree
@@ -126,15 +125,13 @@ parser = argparse.ArgumentParser(description='Generates (stdout) Stand-off Annot
 args = parser.parse_args()
 
 #Input (stdin) in Bitextor crawl format:
-#html_content(base_64)      url
+#html_content(base_64)      url timestamp
 
 #Output (stdout):
-#html_plain_text(base_64)   url timestamp   MD5_sum     document_standoff_annotation
+#html_plain_text(base_64)   url timestamp   document_standoff_annotation
 for line in sys.stdin:
     fields=line.split('\t')
     fields = list(map(str.strip, fields)) #Strip all elements
-    fields.append(str(time.time())) #Timestamp
-    fields.append(hashlib.md5(base64.b64decode(fields[0])).hexdigest()) #MD5 document checksum
     document = html5lib.parse(base64.b64decode(fields[0]),treebuilder="lxml",namespaceHTMLElements=False) #We use lxml treebuilder because of getelementpath function and iteration through elements
     standoff,documenttext = getDocumentStandoff(document)
     fields.append(";".join(standoff))

@@ -7,6 +7,7 @@ import hashlib
 import base64
 import html5lib
 from lxml import etree
+from xml.etree import ElementTree
 import argparse
 
 def get_sentence(standoff,document):
@@ -43,6 +44,7 @@ def get_sentence(standoff,document):
 
 parser = argparse.ArgumentParser(description='Given Bitextor DOCALG file with deferred segments (stdin) and a Bitextor crawl file (positional argument), returns reconstructed segments in DOCALG format (stdout)')
 parser.add_argument('crawl_path', help='path of crawl file')
+parser.add_argument('--tmx', dest='tmx', action='store_true')
 
 args = parser.parse_args()
 
@@ -61,14 +63,29 @@ with open(args.crawl_path,'r') as reader:
 
 #Output (stdout): Bitextor DOCALG file reconstructed:
 #url1 url2 clean_text1_in_base64 clean_text2_in_base64
-for line in sys.stdin:
-    fields = line.split('\t')
-    newfields = [fields[0],fields[1]]
-    for annotation,url in {fields[2]:fields[0],fields[3]:fields[1]}.items(): #SL and TL annotations with URLs from input DOCALG file format: https://github.com/bitextor/bitextor/wiki/Intermediate-formats-used-in-Bitextor#docalg
-        if annotation != "":
-            newfields.append(get_sentence(annotation,document_standoff[url]))
-        else:
-            newfields.append("")
-    print("\t".join(newfields))
+if args.tmx:
+    tree = etree.parse(sys.stdin)
+    root = tree.getroot()
+    for tu in root.findall('body')[0]:
+        for tuv in tu.findall('tuv'):
+            url=""
+            annotation=""
+            for prop in tuv.findall('prop'):
+                if prop.attrib['type'] == "source-document":
+                    url=prop.text
+                elif prop.attrib['type'] == "deferred-seg":
+                    annotation=prop.text
+            tuv.findall('seg')[0].text = get_sentence(annotation,document_standoff[url])
+    print(ElementTree.tostring(root).decode())
+else:
+    for line in sys.stdin:
+        fields = line.split('\t')
+        newfields = [fields[0],fields[1]]
+        for annotation,url in {fields[2]:fields[0],fields[3]:fields[1]}.items(): #SL and TL annotations with URLs from input DOCALG file format: https://github.com/bitextor/bitextor/wiki/Intermediate-formats-used-in-Bitextor#docalg
+            if annotation != "":
+                newfields.append(get_sentence(annotation,document_standoff[url]))
+            else:
+                newfields.append("")
+        print("\t".join(newfields))
 
 

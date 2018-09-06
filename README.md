@@ -30,14 +30,25 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 
 --------
 
-`reconstructor-deferred-sentences.py`: reconstructs tab separated deferred sentences (not TMX yet)
+`reconstructor-deferred-sentences.py`: reconstructs tab separated deferred sentences (TMX supported using `--tmx`)
 
 - Argument input: Bitextor crawl format
 
 `html_content(base_64)  url`
+
+Using tab separated input:
+
 - stdin: Bitextor DOCALG file with stand-off annotations (only tab separated format supported)
 
 `url1  url2  standoff_text1  standoff_text2  [...]  `
 - stdout: Bitextor DOCALG file reconstructed
 
 `url1  url2  clean_text1_in_base64  clean_text2_in_base64  [...]`
+
+Using `--tmx` option:
+
+- stdin: TMX with existing 'tu/tuv/prop type="deferred-seg"' and 'tu/tuv/prop type="source-document"'
+
+- stdout: TMX with filled 'tu/tuv/seg' tag text
+
+

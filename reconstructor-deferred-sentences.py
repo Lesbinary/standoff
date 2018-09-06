@@ -87,12 +87,18 @@ if args.tmx:
 else:
     for line in sys.stdin:
         fields = line.split('\t')
+        fields = list(map(str.strip, fields))
         newfields = [fields[0],fields[1]]
-        for annotation,url in {fields[2]:fields[0],fields[3]:fields[1]}.items(): #SL and TL annotations with URLs from input DOCALG file format: https://github.com/bitextor/bitextor/wiki/Intermediate-formats-used-in-Bitextor#docalg
+        for pair in [(fields[2],fields[0]),(fields[4],fields[1])]: #SL and TL annotations with URLs from input DOCALG file format: https://github.com/bitextor/bitextor/wiki/Intermediate-formats-used-in-Bitextor#docalg
+            annotation,url = pair
             if annotation != "":
                 newfields.append(get_sentence(annotation,document_standoff[url]))
             else:
                 newfields.append("")
+        newfields.append(fields[3])
+        newfields.append(fields[5])
+        if len(fields) > 6:
+            newfields = newfields + fields[6:]
         print("\t".join(newfields))
 
 

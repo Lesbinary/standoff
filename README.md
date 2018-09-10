@@ -47,8 +47,8 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
   
 #### Using `--tmx` option:
 
-- stdin: TMX with existing 'tu/tuv/prop type="deferred-seg"' and 'tu/tuv/prop type="source-document"'
+- stdin: TMX with existing `tu/tuv/prop type="deferred-seg"` and `tu/tuv/prop type="source-document`
 
-- stdout: TMX with filled 'tu/tuv/seg' tag text
+- stdout: TMX with filled `tu/tuv/seg` tag text
 
 

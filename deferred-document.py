@@ -51,7 +51,7 @@ def getWordStandoff(element,document,positionsdict):
     
     #Now we recursively iterate through the childs
     for child in element:
-        if type(child) is etree._Element:
+        if type(child) is etree._Element and element.tag != "script" and element.tag != "style":
             childstandoff, childtext = getWordStandoff(child,document,positionsdict)
             standoff = standoff + childstandoff
             text = text + childtext

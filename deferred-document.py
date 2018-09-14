@@ -94,7 +94,7 @@ def getDocumentStandoff(document):
     docplaintext=""
     positions={document.getroot():0}
     for element in document.getroot():
-        if type(element) is etree._Element and element.tag != "script": #Only elements, not scripts or other kind of tags without proper text
+        if type(element) is etree._Element and element.tag != "script" and element.tag != "style": #Only elements, not scripts or other kind of tags without proper text
             wordstandoff,plaintext = getWordStandoff(element,document,positions)
             if wordstandoff:
                 docstandoff=docstandoff+wordstandoff

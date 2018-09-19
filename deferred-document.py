@@ -30,6 +30,7 @@ def getWordStandoff(element,document,positionsdict):
         if element.tag not in inline_tags:
             text = " "  #Add artificial separation as browser parser does if tag is not inline
             spaceEndPreviousTag = True  #Activate space flag to avoid glue standoff with '+' with previous tag
+
         text = text + element.text
         for word in re.split(r'(\s+)', element.text): #Split using spaces, but keeping those spaces as words (to count double spaces positions)
             if word.isspace():
@@ -56,10 +57,14 @@ def getWordStandoff(element,document,positionsdict):
             standoff = standoff + childstandoff
             text = text + childtext
 
-    #Add interpreted space for non-inline tags after all processing of the actual tag content
+    #Add interpreted space for non-n tags after all processing of the actual tag content
     if element.tag not in inline_tags:
         text = text + " "
         spaceEndPreviousTag = True
+    elif element.tag == "br":
+        text = text + " "
+        spaceEndPreviousTag = True
+
 
     #Processing parent text (A.K.A. element.tail) similarly as the actual tag
     firstword = True

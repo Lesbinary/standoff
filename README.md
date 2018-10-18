@@ -1,7 +1,7 @@
 # Stand-off annotation for deferred TMX
 ### Implementation of Stand-off annotation for deferred TMX ([Forcada, Esplà-Gomis and Pérez-Ortiz, EAMT 2016](http://www.dlsi.ua.es/~mlf/docum/forcada16j.pdf))
 
-Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--deferred` (in `standoff` branch, not in `master` yet). Fully working with our [Wiki sample](https://github.com/bitextor/bitextor/wiki/Sample-of-deferred-bitext)
+Try it with [Bitextor](https://github.com/bitextor/bitextor) (`master` branch code, in future `v7` version)! Use parameter `--deferred`. Fully working with our [Wiki sample](https://github.com/bitextor/bitextor/wiki/Sample-of-deferred-bitext)
 
 ## Scripts usage
 

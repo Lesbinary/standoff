@@ -22,13 +22,13 @@ with open(args.deferred_crawl_path,'r') as reader:
         fields = line.split('\t')
         fields = list(map(str.strip, fields))
         documenttext = base64.b64decode(fields[0]).decode('utf8')
-        documentStandoff[fields[1]]=(documenttext,fields[3].split(';'))
+        documentStandoff[fields[1]]=(documenttext,fields[2].split(';'))
 
 #Input (stdin): Bitextor DOCALG file:
-#url1 url2 clean_text1_in_base64 clean_text2_in_base64 [...]
+#url1 url2 clean_text1 clean_text2 [...]
 
 #Output (stdout): Bitextor DOCALG file:
-#url1 url2 clean_text1_in_base64 clean_text2_in_base64 [...] standoff_text1 standoff_text2
+#url1 url2 clean_text1 clean_text2 [...] standoff_text1 md5checksum standoff_text2 md5checksum
 for line in sys.stdin:
     fields = line.split('\t')
     fields = list(map(str.strip, fields)) #Strip all elements

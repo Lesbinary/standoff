@@ -59,10 +59,10 @@ with open(args.crawl_path,'r') as reader:
         document_standoff[fields[1]] = html5lib.parse(base64.b64decode(fields[0]),treebuilder="lxml",namespaceHTMLElements=False) #Store url:html5lib_tree for easy path search
 
 #Input (stdin): Bitextor DOCALG file (deferred):
-#url1 url2 deferred_clean_text1_in_base64 deferred_clean_text2_in_base64
+#url1 url2 deferred_clean_text1 deferred_clean_text2
 
 #Output (stdout): Bitextor DOCALG file reconstructed:
-#url1 url2 clean_text1_in_base64 clean_text2_in_base64
+#url1 url2 clean_text1 clean_text2
 if args.tmx:
     tree = etree.parse(sys.stdin)
     root = tree.getroot()
@@ -89,7 +89,7 @@ else:
         fields = line.split('\t')
         fields = list(map(str.strip, fields))
         newfields = [fields[0],fields[1]]
-        for pair in [(fields[2],fields[0]),(fields[4],fields[1])]: #SL and TL annotations with URLs from input DOCALG file format: https://github.com/bitextor/bitextor/wiki/Intermediate-formats-used-in-Bitextor#docalg
+        for pair in [(fields[2],fields[0]),(fields[4],fields[1])]:
             annotation,url = pair
             if annotation != "":
                 newfields.append(get_sentence(annotation,document_standoff[url]))

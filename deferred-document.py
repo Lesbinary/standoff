@@ -130,10 +130,10 @@ parser = argparse.ArgumentParser(description='Generates (stdout) Stand-off Annot
 args = parser.parse_args()
 
 #Input (stdin) in Bitextor crawl format:
-#html_content(base_64)      url timestamp
+#html_content(base_64)      url
 
 #Output (stdout):
-#html_plain_text(base_64)   url timestamp   document_standoff_annotation
+#html_plain_text(base_64)   url document_standoff_annotation
 for line in sys.stdin:
     fields=line.split('\t')
     fields = list(map(str.strip, fields)) #Strip all elements

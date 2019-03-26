@@ -9,11 +9,11 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 
 - stdin: Bitextor crawl format
 
-`html_content(base_64)  url  timestamp`
+`html_content(base_64)  url`
 
 - stdout: deferred Bitextor crawl 
 
-`html_plain_text(base_64)  url  timestamp  document_standoff_annotation`
+`html5lib_plain_text(base_64)  url  document_standoff_annotation`
 
 --------
 
@@ -22,11 +22,11 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 - Argument input: path of deferred Bitextor crawl file (output of deferred document script)
 - stdin: Bitextor DOCALG file
 
-`url1  url2  clean_text1_in_base64  clean_text2_in_base64  [...]`
+`url1  url2  clean_text1  clean_text2  [...]`
 
 - stdout: Bitextor DOCALG file with stand-off annotations (can be converted to TMX using Bitextor's `bitextor-buildTMX` using column names `--columns '[...],deferredseg1,checksum1,deferredseg2,checksum2'`):
 
-`url1  url2  clean_text1_in_base64  clean_text2_in_base64  [...]  standoff_text1  checksum1  standoff_text2  checksum2`
+`url1  url2  clean_text1  clean_text2  [...]  standoff_text1  checksum1  standoff_text2  checksum2`
 
 --------
 
@@ -34,7 +34,7 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 
 - Argument input: Bitextor crawl format
 
-`html_content(base_64)  url  timestamp`
+`html_content(base_64)  url`
 
 #### Using tab separated input:
 
@@ -43,7 +43,7 @@ Try it with [Bitextor](https://github.com/bitextor/bitextor)! Use parameter `--d
 `url1  url2  standoff_text1  standoff_text2  checksum1  checksum2  [...]  `
 - stdout: Bitextor DOCALG file reconstructed
 
-`url1  url2  clean_text1_in_base64  clean_text2_in_base64  checksum1  checksum2  [...]`
+`url1  url2  clean_text1  clean_text2  checksum1  checksum2  [...]`
   
 #### Using `--tmx` option:
 

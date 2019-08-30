@@ -40,28 +40,28 @@ for line in sys.stdin:
     standoffSL=[]
     if shortpathSL[0] == 'S' and len(shortpathSL) == shortpathSL.count('I')+1:
         fields.append("")
-        fields.append(mmh3.hash("",signed=False)) #murmurhash document checksum
+        fields.append(str(mmh3.hash("",signed=False))) #murmurhash document checksum
     else:
         for op in shortpathSL: #Obtain the standoff annotation of each sentence word from the full annotated document they come from, counting non-inserted words
             if op != "I":
                 standoffSL.append(documentStandoff[fields[0]][1][position])
             position = position + 1
         fields.append(";".join(standoffSL))
-        fields.append(mmh3.hash(fields[2],signed=False)) #murmurhash document checksum
+        fields.append(str(mmh3.hash(fields[2],signed=False))) #murmurhash document checksum
 
     position=0
     standoffTL=[]
     if shortpathTL[0] == 'S' and len(shortpathTL) == shortpathTL.count('I')+1:
         standoffTL=[]
         fields.append("")
-        fields.append(mmh3.hash("",signed=False)) #murmurhash document checksum
+        fields.append(str(mmh3.hash("",signed=False))) #murmurhash document checksum
     else:
         for op in shortpathTL: #Same for TL
             if op != "I":
                 standoffTL.append(documentStandoff[fields[1]][1][position])
             position = position + 1
         fields.append(";".join(standoffTL))
-        fields.append(mmh3.hash(fields[3],signed=False)) #murmurhash document checksum
+        fields.append(str(mmh3.hash(fields[3],signed=False))) #murmurhash document checksum
 
     #TODO: simplify the sentence standoff annotation joining/collapsing word standoff annotations with the same tag path
 

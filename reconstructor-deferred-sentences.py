@@ -3,12 +3,12 @@
 
 import sys
 import time
-import hashlib
 import base64
 import html5lib
 from lxml import etree
 from xml.etree import ElementTree
 import argparse
+import mmh3
 
 def get_sentence(standoff,document):
     """Returns the text string from the XHTML/XML document that is pointed by the standoff annotation
@@ -79,10 +79,10 @@ if args.tmx:
                 elif prop.attrib['type'] == "checksum-seg":
                     checksum=prop.text
             tuv.findall('seg')[0].text = get_sentence(annotation,document_standoff[url])
-            if str(hashlib.md5(tuv.findall('seg')[0].text.encode('utf8')).hexdigest()) != checksum:
+            if str(mmh3.hash(tuv.findall('seg')[0].text)) != checksum:
                 tuv.append(etree.Element('prop'))
                 tuv[-1].attrib['type']='info'
-                tuv[-1].text = "Reconstructed segment MD5 checksum does not match"
+                tuv[-1].text = "Reconstructed segment murmurhash checksum does not match"
     print(etree.tostring(root, pretty_print=True).decode())
 else:
     for line in sys.stdin:

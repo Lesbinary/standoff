@@ -6,18 +6,44 @@ import time
 import base64
 import html5lib
 from lxml import etree
-import re
 import argparse
 
+import re
+
 def remove_control_characters(html):
-    def str_to_int(s, default, base=10):
-        if int(s, base) < 0x10000:
-            return chr(int(s, base)).encode()
+    # type: (t.Text) -> t.Text
+    """
+    Strip invalid XML characters that `lxml` cannot parse.
+    """
+    # See: https://github.com/html5lib/html5lib-python/issues/96
+    #
+    # The XML 1.0 spec defines the valid character range as:
+    # Char ::= #x9 | #xA | #xD | [#x20-#xD7FF] | [#xE000-#xFFFD] | [#x10000-#x10FFFF]
+    #
+    # We can instead match the invalid characters by inverting that range into:
+    # InvalidChar ::= #xb | #xc | #xFFFE | #xFFFF | [#x0-#x8] | [#xe-#x1F] | [#xD800-#xDFFF]
+    #
+    # Sources:
+    # https://www.w3.org/TR/REC-xml/#charsets,
+    # https://lsimons.wordpress.com/2011/03/17/stripping-illegal-characters-out-of-xml-in-python/
+    def strip_illegal_xml_characters(s, default, base=10):
+        # Compare the "invalid XML character range" numerically
+        n = int(s, base)
+        if n in (0xb, 0xc, 0xFFFE, 0xFFFF) or 0x0 <= n <= 0x8 or 0xe <= n <= 0x1F or 0xD800 <= n <= 0xDFFF:
+            return ""
         return default
-    html = re.sub(br"&#(\d+);?", lambda c: str_to_int(c.group(1), c.group(0)), html)
-    html = re.sub(br"&#[xX]([0-9a-fA-F]+);?", lambda c: str_to_int(c.group(1), c.group(0), base=16), html)
-    html = re.sub(br"[\x00-\x08\x0b\x0e-\x1f\x7f]", b"", html)
+
+    # We encode all non-ascii characters to XML char-refs, so for example "💖" becomes: "&#x1F496;"
+    # Otherwise we'd remove emojis by mistake on narrow-unicode builds of Python
+    html = html.decode('utf8').encode("ascii", "xmlcharrefreplace").decode("utf-8")
+    html = re.sub(r"&#(\d+);?", lambda c: strip_illegal_xml_characters(c.group(1), c.group(0)), html)
+    html = re.sub(r"&#[xX]([0-9a-fA-F]+);?", lambda c: strip_illegal_xml_characters(c.group(1), c.group(0), base=16), html)
+    html = ILLEGAL_XML_CHARS_RE.sub("", html)
     return html
+
+
+# A regex matching the "invalid XML character range"
+ILLEGAL_XML_CHARS_RE = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1F\uD800-\uDFFF\uFFFE\uFFFF]")
 
 #Inline tags that don't start on a new line and only take up as much width as necessary. From https://www.w3schools.com/html/html_blocks.asp
 inline_tags={"a","abbr","acronym","b","bdo","big","br","button","cite","code","dfn","em","i","img","input","kbd","label","map","object","q","samp","script","select","small","span","strong","sub","sup","textarea","time","tt","var"}

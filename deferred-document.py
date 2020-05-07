@@ -9,6 +9,16 @@ from lxml import etree
 import re
 import argparse
 
+def remove_control_characters(html):
+    def str_to_int(s, default, base=10):
+        if int(s, base) < 0x10000:
+            return chr(int(s, base)).encode()
+        return default
+    html = re.sub(br"&#(\d+);?", lambda c: str_to_int(c.group(1), c.group(0)), html)
+    html = re.sub(br"&#[xX]([0-9a-fA-F]+);?", lambda c: str_to_int(c.group(1), c.group(0), base=16), html)
+    html = re.sub(br"[\x00-\x08\x0b\x0e-\x1f\x7f]", b"", html)
+    return html
+
 #Inline tags that don't start on a new line and only take up as much width as necessary. From https://www.w3schools.com/html/html_blocks.asp
 inline_tags={"a","abbr","acronym","b","bdo","big","br","button","cite","code","dfn","em","i","img","input","kbd","label","map","object","q","samp","script","select","small","span","strong","sub","sup","textarea","time","tt","var"}
 
@@ -137,7 +147,7 @@ args = parser.parse_args()
 for line in sys.stdin:
     fields=line.split('\t')
     fields = list(map(str.strip, fields)) #Strip all elements
-    document = html5lib.parse(base64.b64decode(fields[0]),treebuilder="lxml",namespaceHTMLElements=False) #We use lxml treebuilder because of getelementpath function and iteration through elements
+    document = html5lib.parse(remove_control_characters(base64.b64decode(fields[0])),treebuilder="lxml",namespaceHTMLElements=False) #We use lxml treebuilder because of getelementpath function and iteration through elements
     standoff,documenttext = getDocumentStandoff(document)
     fields.append(";".join(standoff))
     fields[0]=base64.b64encode(documenttext.encode('utf8')).decode('utf8')

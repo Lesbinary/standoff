@@ -158,23 +158,27 @@ def getDocumentStandoff(document):
     return gluedStandoff,docplaintext
 
 
-#Global variable to mark if end of tag text has space of any kind
-spaceEndPreviousTag=True
+def main():
+    #Global variable to mark if end of tag text has space of any kind
+    spaceEndPreviousTag=True
+    
+    parser = argparse.ArgumentParser(description='Generates (stdout) Stand-off Annotation of HTML documents given in Bitextor crawl format (stdin)')
+    
+    args = parser.parse_args()
+    
+    #Input (stdin) in Bitextor crawl format:
+    #html_content(base_64)      url
+    
+    #Output (stdout):
+    #html_plain_text(base_64)   url document_standoff_annotation
+    for line in sys.stdin:
+        fields=line.split('\t')
+        fields = list(map(str.strip, fields)) #Strip all elements
+        document = html5lib.parse(remove_control_characters(base64.b64decode(fields[0])),treebuilder="lxml",namespaceHTMLElements=False) #We use lxml treebuilder because of getelementpath function and iteration through elements
+        standoff,documenttext = getDocumentStandoff(document)
+        fields.append(";".join(standoff))
+        fields[0]=base64.b64encode(documenttext.encode('utf8')).decode('utf8')
+        print('\t'.join(fields))
 
-parser = argparse.ArgumentParser(description='Generates (stdout) Stand-off Annotation of HTML documents given in Bitextor crawl format (stdin)')
-
-args = parser.parse_args()
-
-#Input (stdin) in Bitextor crawl format:
-#html_content(base_64)      url
-
-#Output (stdout):
-#html_plain_text(base_64)   url document_standoff_annotation
-for line in sys.stdin:
-    fields=line.split('\t')
-    fields = list(map(str.strip, fields)) #Strip all elements
-    document = html5lib.parse(remove_control_characters(base64.b64decode(fields[0])),treebuilder="lxml",namespaceHTMLElements=False) #We use lxml treebuilder because of getelementpath function and iteration through elements
-    standoff,documenttext = getDocumentStandoff(document)
-    fields.append(";".join(standoff))
-    fields[0]=base64.b64encode(documenttext.encode('utf8')).decode('utf8')
-    print('\t'.join(fields))
+if __name__ == "__main__":
+    main()

@@ -10,6 +10,8 @@ import argparse
 
 import re
 
+sys.setrecursionlimit(10000)
+
 def remove_control_characters(html):
     # type: (t.Text) -> t.Text
     """

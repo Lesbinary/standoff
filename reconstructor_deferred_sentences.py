@@ -19,6 +19,8 @@ def get_sentence(standoff,document):
     for wordstandoff in standoff.split(';'):    #Split by standoff separator ';'
         wordstandoffsegments = wordstandoff.split('+')  #Split by '+' in case of glued annotations
         for wordstandoffseg in wordstandoffsegments:
+            if wordstandoffseg == "":
+                continue
             wordstandoffparts = wordstandoffseg.split(':')  #Obtain path and length range/limits
             wordstandofflimits = wordstandoffparts[1].split('-')
             element = document.find(wordstandoffparts[0])   #Get lxml element from path

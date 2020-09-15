@@ -33,8 +33,8 @@ for line in sys.stdin:
     fields = line.split('\t')
     fields = list(map(str.strip, fields)) #Strip all elements
 
-    shortpathSL=WagnerFischer(fields[2].split(' '),[x for x in documentStandoff[fields[0]][0].replace('\n',' ').replace('\t',' ').replace('\xa0',' ').split(' ') if x != '']).optimum_alignments() #Calculate a short distance path using Wagner-Fischer algorithm for source
-    shortpathTL=WagnerFischer(fields[3].split(' '),[x for x in documentStandoff[fields[1]][0].replace('\n',' ').replace('\t',' ').replace('\xa0',' ').split(' ') if x != '']).optimum_alignments() #and target sentences
+    shortpathSL=WagnerFischer(fields[2].split(),[x for x in documentStandoff[fields[0]][0].replace('\n',' ').replace('\t',' ').replace('\xa0',' ').split() if x != '']).optimum_alignments() #Calculate a short distance path using Wagner-Fischer algorithm for source
+    shortpathTL=WagnerFischer(fields[3].split(),[x for x in documentStandoff[fields[1]][0].replace('\n',' ').replace('\t',' ').replace('\xa0',' ').split() if x != '']).optimum_alignments() #and target sentences
     
     position=0
     standoffSL=[]

@@ -47,7 +47,7 @@ for line in sys.stdin:
                 standoffSL.append(documentStandoff[fields[0]][1][position])
             position = position + 1
         fields.append(";".join(standoffSL))
-        fields.append(str(mmh3.hash(fields[2],signed=False))) #murmurhash document checksum
+        fields.append(str(mmh3.hash(" ".join(fields[2].split()),signed=False))) #murmurhash document checksum
 
     position=0
     standoffTL=[]
@@ -61,7 +61,7 @@ for line in sys.stdin:
                 standoffTL.append(documentStandoff[fields[1]][1][position])
             position = position + 1
         fields.append(";".join(standoffTL))
-        fields.append(str(mmh3.hash(fields[3],signed=False))) #murmurhash document checksum
+        fields.append(str(mmh3.hash(" ".join(fields[3].split()),signed=False))) #murmurhash document checksum
 
     #TODO: simplify the sentence standoff annotation joining/collapsing word standoff annotations with the same tag path
 
